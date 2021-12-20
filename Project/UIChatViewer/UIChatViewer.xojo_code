@@ -114,12 +114,9 @@ Inherits DesktopHTMLViewer
 		Sub Clear()
 		  REDIM me.mChatItems(-1)
 		  me.mLastUserID = -1
-		  //me.LoadPage me.mTemplate, GetTemporaryFolderItem()
-		  
 		  
 		  me.GrantAccessToFolder me.mMessageStylePath
-		  me.LoadPage me.mTemplate, me.mMessageStylePath.Child("Contents").Child("Resources").Child("main.css")
-		  //GetTemporaryFolderItem()
+		  me.LoadPage me.mTemplate, GetTemporaryFolderItem()
 		End Sub
 	#tag EndMethod
 
@@ -706,8 +703,7 @@ Inherits DesktopHTMLViewer
 			    me.LoadHtmlComponents
 			    
 			    me.GrantAccessToFolder me.mMessageStylePath
-			    me.LoadPage me.mTemplate, me.mMessageStylePath.Child("Contents").Child("Resources").Child("main.css")
-			    //GetTemporaryFolderItem()
+			    me.LoadPage me.mTemplate, GetTemporaryFolderItem()
 			  end if
 			End Set
 		#tag EndSetter
