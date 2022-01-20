@@ -96,6 +96,8 @@ Inherits DesktopHTMLViewer
 		    me.ExecuteJavaScript "appendMessage('" + envelope + "');"
 		    me.mLastUserID = -1
 		  end select
+		  
+		  Timer.CallLater 100, WeakAddressOf ScrollChat
 		End Sub
 	#tag EndMethod
 
@@ -519,6 +521,12 @@ Inherits DesktopHTMLViewer
 		  me.mTopic = ""
 		  
 		  me.mProperties = NEW Dictionary
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub ScrollChat()
+		  DIM unused As Variant = me.ExecuteJavaScriptSync("window.scrollTo(0, document.body.scrollHeight + 20);")
 		End Sub
 	#tag EndMethod
 
