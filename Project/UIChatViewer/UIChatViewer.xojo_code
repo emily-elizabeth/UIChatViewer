@@ -2,6 +2,12 @@
 Protected Class UIChatViewer
 Inherits DesktopHTMLViewer
 	#tag Event
+		Sub Closing()
+		  Timer.CancelCallLater WeakAddressOf ScrollChat
+		End Sub
+	#tag EndEvent
+
+	#tag Event
 		Sub DocumentComplete(url as String)
 		  DIM css As String
 		  
@@ -97,6 +103,7 @@ Inherits DesktopHTMLViewer
 		    me.mLastUserID = -1
 		  end select
 		  
+		  Timer.CancelCallLater WeakAddressOf ScrollChat
 		  Timer.CallLater 100, WeakAddressOf ScrollChat
 		End Sub
 	#tag EndMethod
