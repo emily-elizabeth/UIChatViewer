@@ -380,8 +380,7 @@ Inherits DesktopHTMLViewer
 
 	#tag Method, Flags = &h21
 		Private Sub ParseInfoPlist()
-		  DIM classicFolderItem As NEW FolderItem(me.mContentsFolder.Child("Info.plist").URLPath, FolderItem.PathTypeURL)
-		  DIM infoDocument As NEW XmlDocument(classicFolderItem)
+		  DIM infoDocument As NEW XmlDocument(me.mContentsFolder.Child("Info.plist"))
 		  DIM documentNode As XmlNode = infoDocument.FirstChild.FirstChild
 		  DIM childNode As XmlNode = documentNode.FirstChild
 		  
