@@ -1,6 +1,4 @@
 # UIChatViewer
-
-_This works in Xojo 2021r3.1 on macOS only_
  
 This allows your Xojo chat/messaging application to use custom themes, based on Adium message styles.
 https://www.adiumxtras.com/index.php?a=search&cat_id=5
