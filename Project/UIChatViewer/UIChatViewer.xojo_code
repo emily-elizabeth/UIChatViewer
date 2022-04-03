@@ -2,6 +2,24 @@
 Protected Class UIChatViewer
 Inherits DesktopHTMLViewer
 	#tag Event
+		Function CancelLoad(URL as String) As Boolean
+		  if (URL.Left(4) = "link") then
+		    DIM u As String = URL.Replace("link://", "")
+		    if (u = "") then
+		      Return FALSE
+		    elseif (u.Left(4) = "http") then
+		      u = u.Replace("//", "://")
+		      Return CancelLoad(u)
+		    else
+		      Return CancelLoad("http://" + u)
+		    end if
+		  end if
+		  
+		  Return CancelLoad(URL)
+		End Function
+	#tag EndEvent
+
+	#tag Event
 		Sub Closing()
 		  Timer.CancelCallLater WeakAddressOf ScrollChat
 		End Sub
@@ -33,6 +51,16 @@ Inherits DesktopHTMLViewer
 
 	#tag Method, Flags = &h0
 		Sub AppendChat(time As DateTime, userID As Integer, nick As String, icon As Picture, chat As String, isChatIncoming As Boolean)
+		  if (chat.Length > 4) AND (chat.Left(4) <> "<img") then
+		    DIM theRegex As RegEx = new RegEx
+		    theRegex.Options.DotMatchAll = true
+		    theRegex.Options.Greedy = True
+		    theRegex.SearchPattern = "\b(https?://|www\.)([^<>\s]+)"
+		    theRegex.ReplacementPattern = "<a href=""link://\1\2"">\1\2</a>"
+		    theRegex.Options.ReplaceAllMatches = True
+		    chat = theRegex.Replace(chat).ToText
+		  end if
+		  
 		  DIM data As NEW Dictionary
 		  data.Value("type") = "chat"
 		  data.Value("time") = time
@@ -540,10 +568,14 @@ Inherits DesktopHTMLViewer
 
 	#tag Method, Flags = &h21
 		Private Sub ScrollChat()
-		  DIM unused As Variant = me.ExecuteJavaScriptSync("window.scrollTo(0, document.body.scrollHeight + 20);")
+		  me.ExecuteJavaScript("window.scrollTo(0, document.body.scrollHeight + 20);")
 		End Sub
 	#tag EndMethod
 
+
+	#tag Hook, Flags = &h0
+		Event CancelLoad(URL As String) As Boolean
+	#tag EndHook
 
 	#tag Hook, Flags = &h0
 		Event MessageStyleChanged()
